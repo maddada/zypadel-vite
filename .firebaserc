@@ -1,5 +1,11 @@
 {
   "projects": {
     "default": "zypadel-b5557"
+  },
+  "targets": {},
+  "etags": {
+    "zypadel-b5557": {
+      "extensionInstances": {}
+    }
   }
 }
