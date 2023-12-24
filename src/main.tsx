@@ -4,7 +4,7 @@ import * as ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { FirebaseAppProvider } from 'reactfire';
 import { router } from "src/routes/Routes";
-import firebaseConfig from "./firebase.config.js";
+import firebaseConfig from "./firebaseConfig.js";
 
 import "./index.css";
 
