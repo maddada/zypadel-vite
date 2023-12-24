@@ -1,8 +1,9 @@
 import { Burger, Container, Flex, Group, Header, Image, Paper, Text, Transition, createStyles, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth, useFirebaseApp } from "reactfire";
 import zypadelLogo from "src/assets/zypadelLogo.webp";
+import { useStore } from "src/state/Store";
 
 const HEADER_HEIGHT = rem(60);
 
@@ -84,18 +85,24 @@ interface ResponsiveHeaderProps {
 
 export function ResponsiveHeader({ links }: ResponsiveHeaderProps) {
     const [opened, { toggle, close }] = useDisclosure(false); //ts-ignore
-    const [active, setActive] = useState(links[0].link);
+    //const [active, setActive] = useState(links[0].link);
+    const activeLink = useStore((state) => state.activeLink);
+    const setActiveLink = useStore((state) => state.setActiveLink);
+    let firebaseApp = useFirebaseApp();
+    let auth = useAuth(firebaseApp);
+
     const { classes, cx } = useStyles();
 
     const NavItems = links.map((link) => (
         <Link
             key={link.label}
             to={link.link}
-            className={cx(classes.link, { [classes.linkActive]: active === link.link })}
+            className={cx(classes.link, { [classes.linkActive]: activeLink === link.link })}
             onClick={() => {
                 // event.preventDefault();
-                setActive(link.link);
-                // close();
+                // setActive(link.link);
+                setActiveLink(link.link);
+                close();
             }}
         >
             {link.label}
@@ -117,9 +124,17 @@ export function ResponsiveHeader({ links }: ResponsiveHeaderProps) {
 
                 <Transition transition="pop-top-right" duration={200} mounted={opened}>
                     {(styles) => (
-                        <Paper className={classes.dropdown} withBorder style={styles}>
-                            {NavItems}
-                        </Paper>
+                        <>
+                            <Paper className={classes.dropdown} withBorder style={styles}>
+                                {NavItems}
+                            </Paper>
+                            <div>{auth.currentUser.email}</div>
+                            <button
+                                onClick={() => {
+                                    auth.signOut().then(() => console.log("signed out"));
+                                }}
+                            ></button>
+                        </>
                     )}
                 </Transition>
             </Container>
