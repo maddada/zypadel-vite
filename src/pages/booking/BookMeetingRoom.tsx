@@ -1,9 +1,9 @@
 import { Container } from '@mantine/core';
 
-export default function BookPadelLesson() {
+export default function BookMeetingRoom() {
     return (
         <Container size={420} my={100}>
-            <p>BookPadelLesson</p>
+            <p>BookMeetingRoom</p>
         </Container>
     );
 }

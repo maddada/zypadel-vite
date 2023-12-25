@@ -1,6 +1,9 @@
-import useGuardProtectedPage from "src/hooks/useGuardProtectedPage";
+import { Container } from '@mantine/core';
 
 export default function BookPadelCourt() {
-    useGuardProtectedPage();
-    return <p>hiii</p>;
+    return (
+        <Container size={420} my={100}>
+            <p>BookPadelCourt</p>
+        </Container>
+    );
 }
