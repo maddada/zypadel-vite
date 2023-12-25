@@ -1,8 +1,12 @@
 import addMinutesToTime from "./addMinutesToTime";
 
-function generateClubTimes(selectedDuration) {
+function generateClubTimes(selectedDurationStr: string | null): string[] {
     // Times are 7am to 1 am
-    let times = [];
+    if (!selectedDurationStr) return [];
+
+    let selectedDuration = parseInt(selectedDurationStr);
+
+    let times: string[] = [];
 
     for (let i = 7; i < 25; i++) {
         // let time = `${i}:00`;

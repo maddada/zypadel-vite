@@ -2,10 +2,9 @@ import { Burger, Container, Flex, Group, Header, Image, Paper, Text, Transition,
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth, useFirebaseApp } from "reactfire";
+import { useAuth, useSigninCheck } from "reactfire";
 import zypadelLogo from "src/assets/zypadelLogo.webp";
 import { useStore } from "src/state/Store";
-import { useSigninCheck } from "reactfire";
 
 const HEADER_HEIGHT = rem(60);
 
@@ -95,20 +94,18 @@ interface ResponsiveHeaderProps {
     links: {
         link: string;
         label: string;
-        logInRequired: boolean;
-        adminLogInRequired: boolean;
+        logInRequired?: boolean;
+        adminLogInRequired?: boolean;
     }[];
 }
 
 export function ResponsiveHeader({ links }: ResponsiveHeaderProps) {
     const [opened, { toggle, close }] = useDisclosure(false); //ts-ignore
-    const { status, data: signInCheckResult } = useSigninCheck(); // Fix the eslint problem
+    const { data: signInCheckResult } = useSigninCheck(); // Fix the eslint problem
     const activeLink = useStore((state) => state.activeLink);
     const setActiveLink = useStore((state) => state.setActiveLink);
-    let firebaseApp = useFirebaseApp();
-    let auth = useAuth(firebaseApp);
+    let auth = useAuth();
     let navigate = useNavigate();
-    let [navItems, setNavItems] = useState();
 
     const { classes, cx } = useStyles();
 
@@ -159,7 +156,7 @@ export function ResponsiveHeader({ links }: ResponsiveHeaderProps) {
                     {links.map((link) => generateNavLink(link))}
                     <Link
                         key={"logout"}
-                        // to={"logout"}
+                        to={"#"}
                         className={classes.link}
                         style={{ display: auth?.currentUser?.email != null ? "block" : "none" }}
                         onClick={() => {
@@ -169,7 +166,7 @@ export function ResponsiveHeader({ links }: ResponsiveHeaderProps) {
                     >
                         Logout
                     </Link>
-                    <Link key={"email"} to={"#"} style={{ display: auth?.currentUser?.email != null ? "block" : "none" }} className={classes.signedInUserLink} label="Signed In User">
+                    <Link key={"email"} to={"#"} style={{ display: auth?.currentUser?.email != null ? "block" : "none" }} className={classes.signedInUserLink}>
                         {auth?.currentUser?.email != null ? auth.currentUser.email : ""}
                     </Link>
                 </Group>
@@ -180,7 +177,22 @@ export function ResponsiveHeader({ links }: ResponsiveHeaderProps) {
                     {(styles) => (
                         <>
                             <Paper className={classes.dropdown} withBorder style={styles}>
-                                {navItems}
+                                {links.map((link) => generateNavLink(link))}
+                                <Link
+                                    key={"logout"}
+                                    to={"#"}
+                                    className={classes.link}
+                                    style={{ display: auth?.currentUser?.email != null ? "block" : "none" }}
+                                    onClick={() => {
+                                        auth.signOut().then(() => console.log("signed out"));
+                                        navigate("/login");
+                                    }}
+                                >
+                                    Logout
+                                </Link>
+                                <Link key={"email"} to={"#"} style={{ display: auth?.currentUser?.email != null ? "block" : "none" }} className={classes.signedInUserLink}>
+                                    {auth?.currentUser?.email != null ? auth.currentUser.email : ""}
+                                </Link>
                             </Paper>
                         </>
                     )}

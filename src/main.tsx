@@ -8,7 +8,7 @@ import { firebaseConfig } from "./firebaseConfig.js";
 
 import "./index.css";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById("root") || document.body).render(
     <FirebaseAppProvider firebaseConfig={firebaseConfig}>
         <React.StrictMode>
             <MantineProvider

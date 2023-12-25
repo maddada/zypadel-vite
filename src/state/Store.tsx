@@ -9,5 +9,5 @@ interface State {
 
 export const useStore = create<State>((set) => ({
     activeLink: window.location.pathname,
-    setActiveLink: (link) => set((state) => ({ activeLink: link })),
+    setActiveLink: (link) => set(() => ({ activeLink: link })),
 }));
