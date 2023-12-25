@@ -3,7 +3,7 @@ import { DatePicker } from "@mantine/dates";
 import { useEffect, useState } from "react";
 import generateClubTimes from "src/utils/generateClubTimes";
 
-export default function BookFitnessLesson() {
+export default function BookFitnessClass() {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [selectedDuration, setSelectedDuration] = useState<string | null>("60");
     const [selectedTime, setSelectedTime] = useState<string | string[]>();
@@ -17,7 +17,7 @@ export default function BookFitnessLesson() {
         <Container size={900} my={100} fluid>
             <Group position="center" align="center" style={{ display: "flex", flexDirection: "column" }}>
                 <Title align="center" order={1} sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 700 })}>
-                    Book a Fitness Lesson!
+                    Book a Fitness Class!
                 </Title>
                 <Space mt="xl" />
                 <Title align="center" order={2} sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 600 })}>

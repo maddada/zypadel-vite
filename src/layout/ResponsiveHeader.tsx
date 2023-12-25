@@ -1,6 +1,5 @@
 import { Burger, Container, Flex, Group, Header, Image, Paper, Text, Transition, createStyles, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth, useSigninCheck } from "reactfire";
 import zypadelLogo from "src/assets/zypadelLogo.webp";

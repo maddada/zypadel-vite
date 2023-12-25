@@ -3,14 +3,14 @@ import ForgotPassword from "src/pages/auth/ForgotPassword";
 import Login from "src/pages/auth/Login";
 import Register from "src/pages/auth/Register";
 import Home from "src/pages/auth/Home";
-import BookFitnessLesson from "src/pages/booking/BookFitnessLesson";
+import BookFitnessClass from "src/pages/booking/BookFitnessClass";
 import BookMeetingRoom from "src/pages/booking/BookMeetingRoom";
 import BookPadelCourt from "src/pages/booking/BookPadelCourt";
-import BookPadelLesson from "src/pages/booking/BookPadelLesson";
-import ManageFitnessLessons from "src/pages/management/ManageFitnessLessons";
+import BookPadelClass from "src/pages/booking/BookPadelClass";
+import ManageFitnessClass from "src/pages/management/ManageFitnessClasses";
 import ManagePadelCourts from "src/pages/management/ManagePadelCourts";
 import ManageMeetingRoom from "src/pages/management/ManageMeetingRoom";
-import ManagePadelLessons from "src/pages/management/ManagePadelLessons";
+import ManagePadelClasses from "src/pages/management/ManagePadelClasses";
 import ErrorPage from "src/routes/ErrorPage";
 import Root from "src/routes/Root";
 import ProtectedRoute from "./ProtectedRoute";
@@ -21,12 +21,12 @@ export const links = [
     { link: "/login", label: "Login", logInRequired: false },
     { link: "/register", label: "Register", logInRequired: false },
     { link: "/book-padel-court", label: "Padel Court", logInRequired: true },
-    { link: "/book-fitness-lesson", label: "Fitness Lesson", logInRequired: true },
-    { link: "/book-padel-lesson", label: "Padel Lesson", logInRequired: true },
+    { link: "/book-fitness-class", label: "Fitness Class", logInRequired: true },
+    { link: "/book-padel-class", label: "Padel Class", logInRequired: true },
     { link: "/book-meeting-room", label: "Meeting Room", logInRequired: true },
     { link: "/manage-padel-courts", label: "Manage Padel Courts", adminLogInRequired: true },
-    { link: "/manage-fitness-lessons", label: "Manage Fitness Lessons", adminLogInRequired: true },
-    { link: "/manage-padel-lessons", label: "Manage Padel Lessons", adminLogInRequired: true },
+    { link: "/manage-fitness-classes", label: "Manage Fitness Classes", adminLogInRequired: true },
+    { link: "/manage-padel-classes", label: "Manage Padel Classes", adminLogInRequired: true },
     { link: "/manage-meeting-room", label: "Manage Meeting Room", adminLogInRequired: true },
 ];
 
@@ -61,18 +61,18 @@ export const router = createBrowserRouter([
                 ),
             },
             {
-                path: "book-fitness-lesson",
+                path: "book-fitness-class",
                 element: (
                     <ProtectedRoute>
-                        <BookFitnessLesson />
+                        <BookFitnessClass />
                     </ProtectedRoute>
                 ),
             },
             {
-                path: "book-padel-lesson",
+                path: "book-padel-class",
                 element: (
                     <ProtectedRoute>
-                        <BookPadelLesson />
+                        <BookPadelClass />
                     </ProtectedRoute>
                 ),
             },
@@ -85,10 +85,10 @@ export const router = createBrowserRouter([
                 ),
             },
             {
-                path: "manage-padel-lessons",
+                path: "manage-padel-classes",
                 element: (
                     <AdminProtectedRoute>
-                        <ManagePadelLessons />
+                        <ManagePadelClasses />
                     </AdminProtectedRoute>
                 ),
             },
@@ -101,10 +101,10 @@ export const router = createBrowserRouter([
                 ),
             },
             {
-                path: "manage-fitness-lessons",
+                path: "manage-fitness-classes",
                 element: (
                     <AdminProtectedRoute>
-                        <ManageFitnessLessons />
+                        <ManageFitnessClass />
                     </AdminProtectedRoute>
                 ),
             },
