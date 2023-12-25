@@ -17,5 +17,5 @@ export default function Home() {
         return <Navigate to="/login" replace />;
     }
 
-    return <Navigate to="/book-padel-class" replace />;
+    return <Navigate to="/book-padel-lesson" replace />;
 }
