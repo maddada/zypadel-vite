@@ -1,0 +1,38 @@
+.title {
+    font-size: 26rem;
+    font-weight: 900;
+}
+
+.controls {
+    @media (max-width: $mantine-breakpoint-xs) {
+        flex-direction: "column-reverse";
+    };
+}
+
+.control {
+    @media (max-width: $mantine-breakpoint-xs) {
+        width: "100%";
+        text-align: "center";
+    };
+}
+
+.button {
+    position: "relative";
+    transition: "background-color 150ms ease";
+}
+
+/*
+    progress: {
+        ...theme.fn.cover(-1),
+        height: "auto",
+        backgroundColor: "transparent",
+        zIndex: 0,
+    },
+
+    label: {
+        position: "relative",
+        zIndex: 1,
+    },
+
+    checkbox: { input: { cursor: "pointer" }, label: { cursor: "pointer" } },
+*/

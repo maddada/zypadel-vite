@@ -1,93 +1,10 @@
-import { Burger, Container, Flex, Group, Header, Image, Paper, Text, Transition, createStyles, rem } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Flex, Group, Image, Text } from "@mantine/core";
+import cx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth, useSigninCheck } from "reactfire";
 import zypadelLogo from "src/assets/zypadelLogo.webp";
 import { useStore } from "src/state/Store";
-
-const HEADER_HEIGHT = rem(60);
-
-const useStyles = createStyles((theme) => ({
-    root: {
-        position: "fixed",
-        zIndex: 1,
-        width: "100vw",
-        top: 0,
-        left: 0,
-    },
-    dropdown: {
-        position: "absolute",
-        top: HEADER_HEIGHT,
-        left: 0,
-        right: 0,
-        zIndex: 0,
-        borderTopRightRadius: 0,
-        borderTopLeftRadius: 0,
-        borderTopWidth: 0,
-        overflow: "hidden",
-        [theme.fn.largerThan("sm")]: {
-            display: "none",
-        },
-    },
-    header: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        height: "100%",
-    },
-    links: {
-        [theme.fn.smallerThan("sm")]: {
-            display: "none",
-        },
-    },
-    burger: {
-        [theme.fn.largerThan("sm")]: {
-            display: "none",
-        },
-    },
-    link: {
-        display: "block",
-        lineHeight: 1,
-        padding: `${rem(8)} ${rem(12)}`,
-        borderRadius: theme.radius.sm,
-        textDecoration: "none",
-        color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.colors.gray[7],
-        fontSize: theme.fontSizes.sm,
-        fontWeight: 500,
-        "&:hover": {
-            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
-        },
-        [theme.fn.smallerThan("sm")]: {
-            borderRadius: 0,
-            padding: theme.spacing.md,
-        },
-    },
-    signedInUserLink: {
-        display: "block",
-        lineHeight: 1,
-        padding: `${rem(8)} ${rem(12)}`,
-        borderRadius: theme.radius.sm,
-        textDecoration: "none",
-        color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.colors.gray[7],
-        fontSize: theme.fontSizes.sm,
-        fontWeight: 700,
-        "&:hover": {
-            backgroundColor: "initial",
-            color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.colors.gray[7],
-            cursor: "default",
-        },
-        [theme.fn.smallerThan("sm")]: {
-            borderRadius: 0,
-            padding: theme.spacing.md,
-        },
-    },
-    linkActive: {
-        "&, &:hover": {
-            backgroundColor: theme.fn.variant({ variant: "light", color: theme.primaryColor }).background,
-            color: theme.fn.variant({ variant: "light", color: theme.primaryColor }).color,
-        },
-    },
-}));
+import classes from "./ResponsiveHeader.module.css";
 
 interface ResponsiveHeaderProps {
     links: {
@@ -99,14 +16,11 @@ interface ResponsiveHeaderProps {
 }
 
 export function ResponsiveHeader({ links }: ResponsiveHeaderProps) {
-    const [opened, { toggle, close }] = useDisclosure(false); //ts-ignore
-    const { data: signInCheckResult } = useSigninCheck(); // Fix the eslint problem
+    const { data: signInCheckResult } = useSigninCheck();
     const activeLink = useStore((state) => state.activeLink);
     const setActiveLink = useStore((state) => state.setActiveLink);
     let auth = useAuth();
     let navigate = useNavigate();
-
-    const { classes, cx } = useStyles();
 
     let generateNavLink = (link) => {
         let isLoggedIn = signInCheckResult?.signedIn != false;
@@ -145,13 +59,13 @@ export function ResponsiveHeader({ links }: ResponsiveHeaderProps) {
     };
 
     return (
-        <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
-            <Container className={classes.header}>
-                <Flex gap={10}>
-                    <Image src={zypadelLogo} width={28} />
-                    <Text weight={"bold"}>Padel & Fitness Hub</Text>
+        <header className={classes.header}>
+            <Flex className={classes.inner} justify={"space-between"}>
+                <Flex visibleFrom="sm" gap={10}>
+                    <Image src={zypadelLogo} w="25px" />
+                    <Text fw={"bold"}>Padel & Fitness Hub</Text>
                 </Flex>
-                <Group spacing={5} className={classes.links}>
+                <Group gap={5}>
                     {links.map((link) => generateNavLink(link))}
                     <Link
                         key={"logout"}
@@ -165,38 +79,67 @@ export function ResponsiveHeader({ links }: ResponsiveHeaderProps) {
                     >
                         Logout
                     </Link>
-                    <Link key={"email"} to={"#"} style={{ display: auth?.currentUser?.email != null ? "block" : "none" }} className={classes.signedInUserLink}>
+                    <Link key={"email"} to={"#"} style={{ display: auth?.currentUser?.email != null ? "block" : "none" }}>
                         {auth?.currentUser?.email != null ? auth.currentUser.email : ""}
                     </Link>
                 </Group>
+            </Flex>
+        </header>
 
-                <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
+        // const [opened, { toggle, close }] = useDisclosure(false);
+        /* <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" /> */
+        // <Container h={HEADER_HEIGHT} mb={120} className={classes.root}>
+        //     <Container className={classes.header}>
+        //         <Flex gap={10}>
+        //             <Image src={zypadelLogo} width={28} />
+        //             <Text fw={"bold"}>Padel & Fitness Hub</Text>
+        //         </Flex>
+        //         <Group gap={5} className={classes.links}>
+        //             {links.map((link) => generateNavLink(link))}
+        //             <Link
+        //                 key={"logout"}
+        //                 to={"#"}
+        //                 className={classes.link}
+        //                 style={{ display: auth?.currentUser?.email != null ? "block" : "none" }}
+        //                 onClick={() => {
+        //                     auth.signOut().then(() => console.log("signed out"));
+        //                     navigate("/login");
+        //                 }}
+        //             >
+        //                 Logout
+        //             </Link>
+        //             <Link key={"email"} to={"#"} style={{ display: auth?.currentUser?.email != null ? "block" : "none" }} className={classes.signedInUserLink}>
+        //                 {auth?.currentUser?.email != null ? auth.currentUser.email : ""}
+        //             </Link>
+        //         </Group>
 
-                <Transition transition="pop-top-right" duration={200} mounted={opened}>
-                    {(styles) => (
-                        <>
-                            <Paper className={classes.dropdown} withBorder style={styles}>
-                                {links.map((link) => generateNavLink(link))}
-                                <Link
-                                    key={"logout"}
-                                    to={"#"}
-                                    className={classes.link}
-                                    style={{ display: auth?.currentUser?.email != null ? "block" : "none" }}
-                                    onClick={() => {
-                                        auth.signOut().then(() => console.log("signed out"));
-                                        navigate("/login");
-                                    }}
-                                >
-                                    Logout
-                                </Link>
-                                <Link key={"email"} to={"#"} style={{ display: auth?.currentUser?.email != null ? "block" : "none" }} className={classes.signedInUserLink}>
-                                    {auth?.currentUser?.email != null ? auth.currentUser.email : ""}
-                                </Link>
-                            </Paper>
-                        </>
-                    )}
-                </Transition>
-            </Container>
-        </Header>
+        //         <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
+
+        //         <Transition transition="pop-top-right" duration={200} mounted={opened}>
+        //             {(styles) => (
+        //                 <>
+        //                     <Paper className={classes.dropdown} withBorder style={styles}>
+        //                         {links.map((link) => generateNavLink(link))}
+        //                         <Link
+        //                             key={"logout"}
+        //                             to={"#"}
+        //                             className={classes.link}
+        //                             style={{ display: auth?.currentUser?.email != null ? "block" : "none" }}
+        //                             onClick={() => {
+        //                                 auth.signOut().then(() => console.log("signed out"));
+        //                                 navigate("/login");
+        //                             }}
+        //                         >
+        //                             Logout
+        //                         </Link>
+        //                         <Link key={"email"} to={"#"} style={{ display: auth?.currentUser?.email != null ? "block" : "none" }} className={classes.signedInUserLink}>
+        //                             {auth?.currentUser?.email != null ? auth.currentUser.email : ""}
+        //                         </Link>
+        //                     </Paper>
+        //                 </>
+        //             )}
+        //         </Transition>
+        //     </Container>
+        // </Container>
     );
 }

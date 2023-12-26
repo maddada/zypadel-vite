@@ -7,11 +7,11 @@ import BookFitnessClass from "src/pages/booking/BookFitnessClass";
 import BookMeetingRoom from "src/pages/booking/BookMeetingRoom";
 import BookPadelCourt from "src/pages/booking/BookPadelCourt";
 import BookPadelLesson from "src/pages/booking/BookPadelLesson";
+import ErrorPage from "src/pages/error/ErrorPage";
 import ManageFitnessClass from "src/pages/management/ManageFitnessClasses";
 import ManageMeetingRoom from "src/pages/management/ManageMeetingRoom";
 import ManagePadelCourts from "src/pages/management/ManagePadelCourts";
 import ManagePadelLessons from "src/pages/management/ManagePadelLessons";
-import ErrorPage from "src/routes/ErrorPage";
 import Root from "src/routes/Root";
 import AdminProtectedRoute from "./AdminProtectedRoute";
 import ProtectedRoute from "./ProtectedRoute";
@@ -21,13 +21,13 @@ export const links = [
     { link: "/login", label: "Login", logInRequired: false },
     { link: "/register", label: "Register", logInRequired: false },
     { link: "/book-padel-court", label: "Padel Court", logInRequired: true },
-    { link: "/book-fitness-class", label: "Fitness Class", logInRequired: true },
     { link: "/book-padel-lesson", label: "Padel Lesson", logInRequired: true },
-    { link: "/book-meeting-room", label: "Meeting Room", logInRequired: true },
+    // { link: "/book-fitness-class", label: "Fitness Class", logInRequired: true },
+    // { link: "/book-meeting-room", label: "Meeting Room", logInRequired: true },
     { link: "/manage-padel-courts", label: "Manage Padel Courts", adminLogInRequired: true },
-    { link: "/manage-fitness-classes", label: "Manage Fitness Classes", adminLogInRequired: true },
     { link: "/manage-padel-lessons", label: "Manage Padel Lessons", adminLogInRequired: true },
-    { link: "/manage-meeting-room", label: "Manage Meeting Room", adminLogInRequired: true },
+    // { link: "/manage-fitness-classes", label: "Manage Fitness Classes", adminLogInRequired: true },
+    // { link: "/manage-meeting-room", label: "Manage Meeting Room", adminLogInRequired: true },
 ];
 
 export const router = createBrowserRouter([

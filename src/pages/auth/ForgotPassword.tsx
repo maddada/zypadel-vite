@@ -1,60 +1,55 @@
-import { Anchor, Box, Button, Center, Container, Group, Paper, Text, TextInput, Title, createStyles, rem } from "@mantine/core";
-import { IconArrowLeft } from "@tabler/icons-react";
+import { Anchor, Button, Container, Paper, Text, TextInput, Title } from "@mantine/core";
+import { sendPasswordResetEmail } from "firebase/auth"; // Import the signInWithEmailAndPassword function
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const useStyles = createStyles((theme) => ({
-    title: {
-        fontSize: rem(26),
-        fontWeight: 900,
-        fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    },
-
-    controls: {
-        [theme.fn.smallerThan("xs")]: {
-            flexDirection: "column-reverse",
-        },
-    },
-
-    control: {
-        [theme.fn.smallerThan("xs")]: {
-            width: "100%",
-            textAlign: "center",
-        },
-    },
-}));
+import { useAuth } from "reactfire";
 
 export default function ForgotPassword() {
-    const { classes } = useStyles();
     const navigate = useNavigate();
+    const auth = useAuth();
+    let [email, setEmail] = useState("");
+
+    const handleLogin = () => {
+        sendPasswordResetEmail(auth, email) // Use the signInWithEmailAndPassword function
+            .then((res) => {
+                console.log(res);
+                alert("Pass");
+                navigate("/login");
+                return true;
+            })
+            .catch(async (error) => {
+                console.log(error);
+                alert("Error Resetting Password, email was not found.");
+            });
+    };
 
     return (
-        <Container size={460} my={30}>
-            <Title className={classes.title} align="center">
-                Forgot your password?
+        <Container size={420} my={100}>
+            <Title ta="center" style={{ fontWeight: 900 }}>
+                Forgot Password
             </Title>
-            <Text c="dimmed" fz="sm" ta="center">
-                Enter your email to get a reset link
-            </Text>
 
-            <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
-                <TextInput label="Your email" placeholder="me@email.com" required />
-                <Group position="apart" mt="lg" className={classes.controls}>
-                    <Anchor
-                        color="dimmed"
-                        size="sm"
-                        className={classes.control}
-                        onClick={() => {
-                            navigate("/login");
-                        }}
-                    >
-                        <Center inline>
-                            <IconArrowLeft size={rem(12)} stroke={1.5} />
-                            <Box ml={5}>Back to the login page</Box>
-                        </Center>
-                    </Anchor>
-                    <Button className={classes.control}>Reset password</Button>
-                </Group>
+            {/* <div id="recaptcha-container" ref={captchaRef}></div> */}
+
+            <Paper withBorder shadow="md" p={30} mt={30} w={400} radius="md">
+                <TextInput label="Email" placeholder="you@mantine.dev" onChange={(e) => setEmail(e.target.value)} required />
+                <Button id="sign-in-button" fullWidth mt="xl" onClick={handleLogin}>
+                    Send Password Reset Email
+                </Button>
             </Paper>
+
+            <Text color="dimmed" size="sm" ta="center" mt={5}>
+                Go back to {" "}
+                <Anchor
+                    size="sm"
+                    component="button"
+                    onClick={() => {
+                        navigate("/login");
+                    }}
+                >
+                    Sign In
+                </Anchor>
+            </Text>
         </Container>
     );
 }
